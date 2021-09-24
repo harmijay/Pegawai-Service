@@ -15,6 +15,7 @@ public class Pegawai {
     private String gender;
     private Long salary;
     private String position;
+    private Long idKantor;
 
     public Pegawai(Long id, String name, LocalDate dob, String gender, Long salary, String position) {
         this.id = id;
@@ -26,6 +27,24 @@ public class Pegawai {
     }
 
     public Pegawai() {
+    }
+
+    public Pegawai(Long id, String name, LocalDate dob, String gender, Long salary, String position, Long idKantor) {
+        this.id = id;
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.salary = salary;
+        this.position = position;
+        this.idKantor = idKantor;
+    }
+
+    public Long getIdKantor() {
+        return idKantor;
+    }
+
+    public void setIdKantor(Long idKantor) {
+        this.idKantor = idKantor;
     }
 
     public Long getId() {
