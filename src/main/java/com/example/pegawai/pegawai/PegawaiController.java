@@ -36,17 +36,18 @@ public class PegawaiController {
     @PostMapping
     public void registerNewPegawai(@RequestBody Pegawai pegawai) {
         /*WebClient*/
-        KantorResponse response = webClientBuilder.build()
+        HashMap response = webClientBuilder.build()
                 .get()
-                .uri("http://10.10.30.35:7006/kantor/validasiIdKantor/"+pegawai.getIdKantor())
+                .uri("http://localhost:7006/kantor/validasiIdKantor/"+pegawai.getIdKantor())
                 .retrieve()
-                .bodyToMono(KantorResponse.class)
+                .bodyToMono(HashMap.class)
                 .block();
+
         if (response != null) {
-            if (response.getMessage().equals("id kantor ada")) {
+            if (response.get("message").toString().equals("id kantor ada")) {
                 pegawaiService.addNewPegawai(pegawai);
             } else {
-                throw new IllegalStateException(response.getMessage());
+                throw new IllegalStateException(response.get("message").toString());
             }
         }else{
             throw new IllegalStateException("Failed to retrieve Kantor information");
@@ -64,9 +65,10 @@ public class PegawaiController {
         data.put("logTransaksi","Pegawai with id "+pegawaiId+" has been deleted");
         webClientBuilder.build()
                 .post()
-                .uri("http://10.10.30.49:7007/api/transaksi/")
+                .uri("http://localhost:7007/api/transaksi/")
                 .body(Mono.just(data),HashMap.class)
-                .retrieve();
+                .retrieve()
+                .bodyToMono(HashMap.class).block();
     }
 
     @PutMapping
